@@ -40,7 +40,7 @@ const Table = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="3">No results found.</td>
+              <td colSpan="3">Loading...</td>
             </tr>
           )}
         </tbody>

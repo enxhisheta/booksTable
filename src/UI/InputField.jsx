@@ -1,22 +1,28 @@
 /* eslint-disable react/prop-types */
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 
 const InputField = ({ label, value, onChange, type = "text" }) => {
-  const inputRef = useRef(value);
+  const [inputValue, setInputValue] = useState(value);
+  const debounceDelay = 500;
 
-  const handleChange = () => {
-    onChange(inputRef.current.value);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (inputValue !== value) {
+        onChange(inputValue);
+      }
+    }, debounceDelay);
+
+    return () => clearTimeout(handler);
+  }, [inputValue, value, onChange]);
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
   };
 
   return (
     <div>
       <label>{label}:</label>
-      <input
-        ref={inputRef}
-        type={type}
-        defaultValue={value}
-        onChange={handleChange}
-      />
+      <input type={type} value={inputValue} onChange={handleInputChange} />
     </div>
   );
 };
